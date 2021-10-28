@@ -1,0 +1,13 @@
+toc:
+  properties:
+    subcollection: satellite-cli
+    audience: service
+    href: /docs/satellite-cli
+    path: satellite-cli
+    label: Satellite CLI Reference
+    
+  entries: 
+  - navgroup: 
+    id: reference
+    topics:
+    - cli-reference.md
