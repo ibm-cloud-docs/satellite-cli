@@ -5,7 +5,6 @@ toc:
     href: /docs/satellite-cli
     path: satellite-cli
     label: Satellite CLI Reference
-
   entries: 
   - navgroup: 
     id: reference
