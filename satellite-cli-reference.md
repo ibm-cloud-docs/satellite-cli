@@ -2,7 +2,7 @@
 
 copyright:
   years: 2022
-lastupdated: "2022-05-26"
+lastupdated: "2022-06-08"
 
 keywords: satellite cli reference, satellite commands, satellite cli, satellite reference
 
@@ -2145,7 +2145,7 @@ ibmcloud sat storage config ls [--location LOCATION] [--output OUTPUT] [-q]
 
 
 #### Example
-{: #cli-storage-config-ls-example}
+{: #cli-storage-config-ls-example-1}
 
 ```sh
 ibmcloud sat storage config ls
