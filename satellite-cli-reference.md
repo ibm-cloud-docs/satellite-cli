@@ -2,7 +2,7 @@
 
 copyright:
   years: 2022
-lastupdated: "2022-07-15"
+lastupdated: "2022-07-25"
 
 keywords: satellite cli reference, satellite commands, satellite cli, satellite reference
 
@@ -1403,7 +1403,7 @@ Create a {{site.data.keyword.satelliteshort}} location. When you create a locati
 {: shortdesc}
 
 ```sh
-ibmcloud sat location create --managed-from REGION --name NAME [--cos-bucket COS_BUCKET_NAME] [--description DESCRIPTION] [--ha-zone ZONE1_NAME --ha-zone ZONE2_NAME --ha-zone ZONE3_NAME] [--coreos-enabled] [--logging-account-id LOGGING_ACCOUNT] [--provider INFRASTRUCTURE_PROVIDER] [--provider-region PROVIDER_REGION] [--provider-credential PATH_TO_PROVIDER_CREDENTIAL] [-q]
+ibmcloud sat location create --managed-from REGION --name NAME [--cos-bucket COS_BUCKET_NAME] [--description DESCRIPTION] [--ha-zone ZONE1_NAME --ha-zone ZONE2_NAME --ha-zone ZONE3_NAME] [--coreos-enabled] [--logging-account-id LOGGING_ACCOUNT]  [--provider INFRASTRUCTURE_PROVIDER] [--provider-region PROVIDER_REGION] [--provider-credential PATH_TO_PROVIDER_CREDENTIAL] [-q]
 ```
 {: pre}
 
@@ -2261,6 +2261,45 @@ ibmcloud sat storage config ls [--location LOCATION] [--output OUTPUT] [-q]
 
 ```sh
 ibmcloud sat storage config ls
+```
+{: pre}
+
+### **Beta** `ibmcloud sat storage config param set`
+{: #cli-storage-config-param-set}
+
+Set the config and secret parameters of a Satellite storage configuration.
+{: shortdesc}
+
+```sh
+ibmcloud sat storage config param set --config CONFIG --param PARAM [--param PARAM...] [--apply] [-f]
+```
+{: pre}
+
+#### Minimum required permissions
+{: #cli-storage-config-param-set-min-perm}
+
+{{site.data.keyword.cloud_notm}} IAM **Editor** platform role for the **Configuration** resource in {{site.data.keyword.satelliteshort}}. For more information, see [Checking user permissions](/docs/openshift?topic=openshift-users#checking-perms).
+
+#### Command options
+{: #cli-storage-config-param-set-command-options}
+
+`--config CONFIG`
+:    Required. The name or ID of the storage configuration that you want to set parameters for. To list {{site.data.keyword.satelliteshort}} storage configurations, run `ibmcloud sat storage config ls`.
+
+`--param PARAM`
+:    Required. The configuration parameter you want to set. Enter the parameter in the "key=value" format. To see the configuration parameters in a storage template, run 'ibmcloud sat storage template get'.
+
+`--apply`
+:    Optional. Specify this option to apply the latest storage configuration version to all assignments that belong to the specified configuration. To list all assignments for a configuration, run 'ibmcloud sat storage assignment ls --config CONFIG'
+
+`-f`
+:    Optional. Force the command to run with no user prompts.
+
+#### Example
+{: #cli-storage-config-ls-example-2}
+
+```sh
+ibmcloud sat storage config param set --config <config_name> --param <"key=value">
 ```
 {: pre}
 
