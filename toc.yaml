@@ -7,6 +7,6 @@ toc:
     label: Satellite CLI Reference
   entries: 
   - navgroup: 
-    id: reference
-    topics:
-    - satellite-cli-reference.md
+      id: reference
+      topics:
+      - satellite-cli-reference.md
