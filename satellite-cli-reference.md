@@ -2,7 +2,7 @@
 
 copyright:
   years: 2019, 2022
-lastupdated: "2022-11-03"
+lastupdated: "2022-12-14"
 
 keywords: satellite cli reference, satellite commands, satellite cli, satellite reference
 
@@ -26,7 +26,7 @@ To install the CLI, see [Setting up the CLI](/docs/satellite?topic=satellite-set
 ## `ibmcloud sat` commands
 {: #satellite-cli-map}
 
-The tables below list the `ibmcloud sat` command groups. For a complete list of all `ibmcloud sat` commands as they are structured in the CLI, see the [{{site.data.keyword.satelliteshort}} CLI map](/docs/satellite?topic=satellite-icsat_map).
+The following tables list the `ibmcloud sat` command groups. For a complete list of all `ibmcloud sat` commands as they are structured in the CLI, see the [{{site.data.keyword.satelliteshort}} CLI map](/docs/satellite?topic=satellite-icsat_map).
 {: shortdesc}
 
 | Command group | Description | 
@@ -41,8 +41,8 @@ The tables below list the `ibmcloud sat` command groups. For a complete list of 
 | [Service commands](#sat-service-commands)| View Satellite service clusters. |
 | [Storage commands](#sat-storage-commands)| View and manage Satellite storage resources. |
 | [Subscription commands](#sat-config-subscription-commands)| View and manage Satellite subscriptions to deploy Kubernetes configuration files to your clusters. |
-{: summary="The rows are read from left to right. The first column is the command group. The second column is a description of the command group."}
-{: caption="{{site.data.keyword.satelliteshort}} CLI command groups" caption-side="bottom"}
+{: caption="Satellite commands." caption-side="bottom"}
+
 
 ## Cluster commands
 {: #sat-cluster-commands}
@@ -454,7 +454,7 @@ Create a {{site.data.keyword.satelliteshort}} configuration. After you create a 
 {: shortdesc}
 
 ```sh
-ibmcloud sat config create --name NAME [-q]
+ibmcloud sat config create (--data-location LOCATION | --provider PROVIDER) --name NAME [-q]
 ```
 {: pre}
 
@@ -469,8 +469,12 @@ ibmcloud sat config create --name NAME [-q]
 `--name NAME`
 :    Required. The name for your configuration.
 
-`--data-location DATA-LOCATION`
-:    Optional. The location to store the data associated with the {{site.data.keyword.satelliteshort}} configuration, such as the definitions of Kubernetes resources to be deployed to your clusters. For example: `tok`. For a list of {{site.data.keyword.satelliteshort}} locations, see [Supported IBM Cloud locations](/docs/satellite?topic=satellite-sat-regions#understand-supported-regions).
+`--data-location LOCATION`
+:    The location to store the data associated with the {{site.data.keyword.satelliteshort}} configuration, such as the definitions of Kubernetes resources to be deployed to your clusters. For example: `tok`. For a list of {{site.data.keyword.satelliteshort}} locations, see [Supported IBM Cloud locations](/docs/satellite?topic=satellite-sat-regions#understand-supported-regions). This option is used when you create a Direct Upload configuration. You can specify either `--data-location LOCATION` or --provider PROVIDER`. You can not specify both. 
+
+`--provider PROVIDER`
+:   The remote GitOps provider for the Satellite configuration. This provider stores your Kubernetes resource definitions. This option is used when you create a GitOps configuration. You can specify either `--data-location LOCATION` or --provider PROVIDER`. You can not specify both. 
+
 
 `-q`
 :    Optional. Do not show the message of the day or update reminders.
@@ -1435,7 +1439,7 @@ ibmcloud sat location create --managed-from REGION --name NAME [--cos-bucket COS
      3. [Azure `topology.kubernetes.io/zone` labels](https://docs.microsoft.com/en-us/azure/aks/availability-zones#verify-node-distribution-across-zones){: external}, such as `eastus-1`, `eastus-2`, and `eastus-3`. Do **not** use only the location name (`eastus`) or the zone number (`1`).
      4. [GCP regions and zones](https://cloud.google.com/compute/docs/regions-zones){: external}, such as `us-west1-a`, `us-west1-b`, and `us-west1-c`.
      
-:    Optional: If you use this option, zone names must be specified in three repeated flags. If you do not use this option, the zones in your location are assigned names, such as `zone-1`.
+:    Optional: If you use this option, zone names must be specified in three repeated options. If you do not use this option, the zones in your location are assigned names, such as `zone-1`.
 
 `--coreos-enabled`
 
@@ -1445,7 +1449,7 @@ ibmcloud sat location create --managed-from REGION --name NAME [--cos-bucket COS
 :    Optional. The {{site.data.keyword.cloud_notm}} account ID with the instance of {{site.data.keyword.la_full_notm}} that you want to forward your {{site.data.keyword.satelliteshort}} logs to. This option is available only in select environments.
   
 `--pod-subnet SUBNET`
-:    Optional. Specify a custom subnet CIDR to provide private IP addresses for pods. This option can be used only if you also enable Red Hat CoreOS with the `--coreos-enabled` flag. All pods that are deployed to a worker node are assigned a private IP address in the 172.16.0.0/16 range by default. You can avoid subnet conflicts with the network that you use to connect to your location by specifying a custom subnet CIDR that provides the private IP addresses for your pods.
+:    Optional. Specify a custom subnet CIDR to provide private IP addresses for pods. This option can be used only if you also enable Red Hat CoreOS with the `--coreos-enabled` option. All pods that are deployed to a worker node are assigned a private IP address in the 172.16.0.0/16 range by default. You can avoid subnet conflicts with the network that you use to connect to your location by specifying a custom subnet CIDR that provides the private IP addresses for your pods.
 :    When you choose a subnet size, consider the size of the cluster that you plan to create and the number of worker nodes that you might add in the future. The subnet must have a CIDR of at least `/23`, which provides enough pod IPs for a maximum of four worker nodes in a cluster. For larger clusters, use `/22` to have enough pod IP addresses for eight worker nodes, `/21` to have enough pod IP addresses for 16 worker nodes, and so on.
 :    The subnet that you choose must be within one of the following ranges.
      - `172.16.0.0 - 172.17.255.255`
@@ -1456,7 +1460,7 @@ ibmcloud sat location create --managed-from REGION --name NAME [--cos-bucket COS
 :    Note that the pod and service subnets can't overlap. The service subnet is in the 172.20.0.0/16 range by default. This value can't be set to the value of the related location's pod-subnet or service-subnet.
 
 `--service-subnet SUBNET`
-:   Optional. Specify a custom subnet CIDR to provide private IP addresses for services. This option can be used only if you also enable Red Hat CoreOS with the `--coreos-enabled` flag. All services that are deployed to the cluster are assigned a private IP address in the 172.20.0.0/16 range by default. You can avoid subnet conflicts with the network that you use to connect to your location by specifying a custom subnet CIDR that provides the private IP addresses for your services.
+:   Optional. Specify a custom subnet CIDR to provide private IP addresses for services. This option can be used only if you also enable Red Hat CoreOS with the `--coreos-enabled` option. All services that are deployed to the cluster are assigned a private IP address in the 172.20.0.0/16 range by default. You can avoid subnet conflicts with the network that you use to connect to your location by specifying a custom subnet CIDR that provides the private IP addresses for your services.
 :    The subnet must be specified in CIDR format with a size of at least `/24`, which allows a maximum of 255 services in the cluster, or larger. The subnet that you choose must be within one of the following ranges.
      - `172.16.0.0 - 172.17.255.255`
      - `172.20.0.0 - 172.31.255.255`
@@ -1595,7 +1599,7 @@ ibmcloud sat location dns register --location LOCATION --ip HOST_IP_ADDRESS [--o
 :    Required. Enter the name or ID of the location for which you want to create a DNS record and register the public or private IP addresses of your control plane hosts. To retrieve the location ID or name, run `ibmcloud sat location ls`.  
 
 `--ip HOST_IP_ADDRESS`
-:    Required. Enter the IP address of a compute host that you added to your {{site.data.keyword.satelliteshort}} control plane. To retrieve the IP, run `ibmcloud sat host ls --location <location_ID_or_name>`ID. To register multiple IP addresses, you can use multiple `--ip` flags in the same command.   
+:    Required. Enter the IP address of a compute host that you added to your {{site.data.keyword.satelliteshort}} control plane. To retrieve the IP, run `ibmcloud sat host ls --location <location_ID_or_name>`ID. To register multiple IP addresses, you can use multiple `--ip` options in the same command.   
 
 `--output json`
 :    Optional. Prints the command output in JSON format.
@@ -2185,7 +2189,7 @@ ibmcloud sat storage config create --location LOCATION --name NAME --template-na
 :    Required. Enter the ID or name of the location where you want to create the storage configuration. To retrieve the location ID or name, run `ibmcloud sat location ls`.
 
 `--name NAME`
-:    Required. Enter a name for your storage configuration. Note that Kubernetes resources can't contain capital letters or special characters. Enter a name for your config that uses only lowercase letters, numbers, hyphens or periods.
+:    Required. Enter a name for your storage configuration. Note that Kubernetes resources can't contain capital letters or special characters. Enter a name for your config that uses only lowercase letters, numbers, hyphens, or periods.
 
 `--template-name TEMPLATE NAME`
 :    Required. Enter the name of your storage template.
@@ -2611,7 +2615,7 @@ Create a subscription for {{site.data.keyword.openshiftlong_notm}} clusters to d
 {: shortdesc}
 
 ```sh
-ibmcloud sat subscription create --name NAME --group GROUP [--group GROUP] --config CONFIG --version VERSION [-q]
+ibmcloud sat subscription create --name NAME --group GROUP [--group GROUP] --config CONFIG (--auth-required --gitref GITREF --gitref-type TYPE --path PATH --repository REPOSITORY | --version VERSION) [-q]
 ```
 {: pre}
 
@@ -2632,8 +2636,23 @@ ibmcloud sat subscription create --name NAME --group GROUP [--group GROUP] --con
 `--config CONFIG`
 :    Required. The name of the configuration where you added the Kubernetes resource definition as a version that you want to deploy to your clusters. To list available configurations, run `ibmcloud sat config ls`.
 
+`--auth-required` 
+:   Include this option to use authentication when connecting to the remote repository. This option is used only when you create a Subscription to a Configuration using the GitOps strategy.
+
+`--gitref GITREF` 
+:   The GitRef to use for the {{site.data.keyword.satelliteshort}} subscription. This option is used only when you create a Subscription to a Configuration using the GitOps strategy. This option is used only when you create a Subscription to a Configuration using the GitOps strategy.
+
+`--gitref-type TYPE`
+:   The type of GitRef to use for the {{site.data.keyword.satelliteshort}} subscription.This option is used only when you create a Subscription to a Configuration using the GitOps strategy.
+
+`--path PATH`
+:   The path to the repository files or release assets in the remote repository that you want to use for the {{site.data.keyword.satelliteshort}} subscription. This option is used only when you create a Subscription to a Configuration using the GitOps strategy.
+
+`--repository REPOSITORY`
+:   The remote repository to use for the {{site.data.keyword.satelliteshort}}  subscription. This option is used only when you create a Subscription to a Configuration using the GitOps strategy.
+
 `--version VERSION`
-:    Required. The name or ID of the version that you want to deploy to the clusters in your cluster group. To list versions in your configuration, run `ibmcloud sat config get --config <configuration_name_or_ID>`.
+:    The name or ID of the version that you want to deploy to the clusters in your cluster group. This option is used only when you create a Subscription to a Configuration using the Direct Upload strategy. To list versions in your configuration, run `ibmcloud sat config get --config <configuration_name_or_ID>`.
 
 `-q`
 :    Optional. Do not show the message of the day or update reminders.
