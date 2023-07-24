@@ -20,7 +20,7 @@ subcollection: satellite-cli
 Refer to these commands when you want to automate the creation and management of your {{site.data.keyword.satelliteshort}} location.
 {: shortdesc}
 
-To install the CLI, see [Setting up the CLI](/docs/satellite?topic=satellite-install-ibmcloud-cli). 	
+To install the CLI, see [Setting up the CLI](/docs/satellite?topic=satellite-cli-install). 	
 {: tip}
 
 ## `ibmcloud sat` commands
