@@ -9,4 +9,4 @@ toc:
   - navgroup: 
       id: reference
       topics:
-      - satellite-cli-reference.md
+      - satellite-cli-reference-v2.md
